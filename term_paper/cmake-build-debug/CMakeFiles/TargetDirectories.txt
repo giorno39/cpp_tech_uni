@@ -1,0 +1,3 @@
+D:/tu_3.1/pe/cpp_tech_uni/term_paper/cmake-build-debug/CMakeFiles/term_paper.dir
+D:/tu_3.1/pe/cpp_tech_uni/term_paper/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/tu_3.1/pe/cpp_tech_uni/term_paper/cmake-build-debug/CMakeFiles/rebuild_cache.dir
