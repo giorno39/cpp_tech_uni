@@ -9,9 +9,7 @@
 class department {
     private:
         std::string name;
-        std::vector <employee> employees;
         std::string initial_date;
-        std::vector <project> projects;
     public:
         department();
         department(std::string name, std::string date);
@@ -27,6 +25,10 @@ class department {
         void get_info();
         void get_worker_info();
         void get_projects_info();
+        std::vector <project> projects;
+        std::vector <employee> employees;
+        friend std::ostream& operator<<(std::ostream& os, const department& obj);
+
 
 };
 

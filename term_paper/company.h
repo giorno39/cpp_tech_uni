@@ -24,8 +24,13 @@ class company {
         bool get_vat();
         void get_department_info();
         void add_department();
-        void get_info();
+        friend std::ostream& operator<<(std::ostream& os, const company& obj);
         std::vector <department> departments;
+        void get_info();
+
+
+
+
 };
 
 

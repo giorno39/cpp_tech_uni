@@ -19,7 +19,7 @@ void employee::set_egn(std::string c_egn) {
 }
 
 void employee::set_work_experience(std::string experience) {
-    while(experience != "Junior" || experience != "Mid" || experience != "Senior"){
+    while(experience != "Junior" && experience != "Mid" && experience != "Senior"){
         std::cout << "Valid work experience is Junior-Mid-Senior";
         std::cin >> experience;
     }
@@ -51,7 +51,7 @@ employee::employee(std::string name, std::string egn, std::string work_experienc
 }
 
 employee::~employee() {
-    std::cout << "This employee is being fired!";
+//    std::cout << "This employee is being fired!";
 }
 
 std::string employee::get_name() {
@@ -76,5 +76,13 @@ void employee::get_info() {
     std::cout << "The works " << this->hours_per_day << " hours per day" << std::endl;
     std::cout << "Experience: " << this->work_experience << std::endl;
     this->current_project.get_info();
+}
+
+std::ostream& operator<<(std::ostream& os, const employee& obj){
+    os << "The employee names is: " << obj.name << std::endl;
+    os << "The ID of the employee is: " << obj.egn << std::endl;
+    os << "The works " << obj.hours_per_day << " hours per day" << std::endl;
+    os << "Experience: " << obj.work_experience << std::endl;
+    return os;
 }
 

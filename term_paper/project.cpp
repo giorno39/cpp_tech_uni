@@ -30,7 +30,7 @@ project::project(std::string name, std::string death_line) {
 }
 
 project::~project() {
-    std::cout << "This project is completed or just being removed";
+//    std::cout << "This project is completed or just being removed";
 }
 
 std::string project::get_name() {
@@ -44,4 +44,11 @@ std::string project::get_death_line() {
 void project::get_info() {
     std::cout << "The project name is " << this->name << std::endl;
     std::cout << "The death line of the project is " << this->death_line << std::endl;
+}
+
+std::ostream& operator<<(std::ostream& os, const project& obj){
+    os << "The project name is " << obj.name << std::endl;
+    os << "The death line of the project is " << obj.death_line << std::endl;
+
+    return os;
 }

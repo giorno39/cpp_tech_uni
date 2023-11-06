@@ -15,6 +15,7 @@ class project{
         std::string get_death_line();
         void set_death_line(std::string date);
         void get_info();
+        friend std::ostream& operator<<(std::ostream& os, const project& obj);
 };
 
 

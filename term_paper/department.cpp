@@ -1,6 +1,5 @@
 #include "department.h"
 #include <iostream>
-#include "company.h"
 
 void department::set_name(std::string name) {
     while(name.length() <= 2){
@@ -30,7 +29,12 @@ department::department(std::string name, std::string date) {
 
 
 department::~department() {
-//    std::cout << "This department is being closed";
+    for(employee empl: this->employees){
+        empl.~employee();
+    }
+    for(project proj: this->projects){
+        proj.~project();
+    }
 }
 
 std::string department::get_name() {
@@ -53,10 +57,10 @@ void department::add_worker() {
     std::cin >> exp;
     std::cout << "Enter hours per day 4-16";
     std::cin >> h;
-    std::cout << "Enter a valid project 0-" << projects.size() - 1;
+    std::cout << "Enter a valid project 0 - " << this->projects.size() - 1;
     std::cin >> proj;
     while(proj < 0 || proj >= projects.size()){
-        std::cout << "Enter a valid project 0-" << projects.size() - 1;
+        std::cout << "Enter a valid project 0-" << this->projects.size() - 1;
         std::cin >> proj;
     }
     project c_proj = projects[proj];
@@ -82,14 +86,32 @@ void department::get_info() {
     std::cout << "This department is working on " << this->projects.size() << " projects" << std::endl;
 }
 
+std::ostream& operator<<(std::ostream& os, const department& obj){
+    os << "The name of the department is " << obj.name << std::endl;
+    os << "There are " << obj.employees.size() << " employees in this department" << std::endl;
+    os << "This department opened at " << obj.initial_date << std::endl;
+    os << "This department is working on " << obj.projects.size() << " projects" << std::endl;
+
+    return os;
+}
+
 void department::get_worker_info() {
-    for(employee c_emp: this->employees){
-        c_emp.get_info();
+    int count = 0;
+    for(const employee& c_emp: this->employees){
+//        c_emp.get_info();
+        std::cout << count << ". ";
+        count++;
+        std::cout << c_emp;
+
     }
 }
 
 void department::get_projects_info() {
-    for(project c_proj:projects){
-        c_proj.get_info();
+    int count = 0;
+    for(const project& c_proj:projects){
+//        c_proj.get_info();
+        std::cout << count << ". ";
+        count++;
+        std::cout << c_proj;
     }
 }

@@ -38,9 +38,11 @@ company::company(std::string type, bool vat, std::string new_name) {
     set_name(std::move(new_name));
 }
 
-//TODO: this message should go were the comapny is estracted by the main vector
+
 company::~company(){
-//    std::cout << "This company is not running anymore" << std::endl;
+    for(department dep: this->departments){
+        dep.~department();
+    }
 }
 
 
@@ -62,7 +64,7 @@ void company::get_department_info() {
     }else{
         for(department c_dep:departments){
             std::cout << count << ". ";
-            c_dep.get_info();
+            std::cout << c_dep;
             std::cout << std::endl;
             count++;
         }
@@ -83,11 +85,23 @@ void company::add_department() {
     departments.insert(departments.end(), temp);
 }
 
+
+std::ostream& operator<<(std::ostream& os, const company& obj) {
+    os << "The name of the company is: " << obj.name << std::endl;
+    os << "The type of company is " << obj.type_of_company << std::endl;
+    os << "VAT: " << obj.vat << std::endl;
+    os << "In this company there are " << obj.departments.size() << " departments" << std::endl;
+
+    return os;
+}
+
 void company::get_info() {
     std::cout << "The name of the company is: " << this->name << std::endl;
     std::cout << "The type of company is " << this->type_of_company << std::endl;
     std::cout << "VAT: " << this->vat << std::endl;
     std::cout << "In this company there are " << departments.size() << " departments" << std::endl;
 }
+
+
 
 

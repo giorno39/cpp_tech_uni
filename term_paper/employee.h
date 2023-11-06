@@ -23,6 +23,7 @@ class employee {
         int get_hours_per_day();
         void set_hours_per_day(int hours);
         void get_info();
+    friend std::ostream& operator<<(std::ostream& os, const employee& obj);
 };
 
 
