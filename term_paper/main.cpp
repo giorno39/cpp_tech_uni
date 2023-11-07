@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include "employee.h"
 #include "company.h"
 #include "department.h"
@@ -6,6 +7,107 @@
 #include "vector"
 
 std::vector<company> companies;
+
+int get_index(std::vector<project> v, project proj) {
+    for (int i = 0; i < v.size(); i++) {
+        if (&v[i] == &proj) {
+            return i;
+        }
+    }
+    return 0;
+}
+
+
+void write_to_file(){
+
+
+    std::ofstream  outputFile("../companies.txt");
+    if(outputFile.is_open()){
+        for(company& c_comp : companies){
+            outputFile << c_comp.get_name() << "," << c_comp.get_company_type() << "," << c_comp.get_vat() << "," << c_comp.departments.size()  <<std::endl;
+            for(department& c_dep : c_comp.departments){
+                outputFile << c_dep.get_name() << "," << c_dep.get_initial_date() << "," << c_dep.projects.size() << "," << c_dep.employees.size() << std::endl;
+                for(project& c_proj :c_dep.projects){
+                    outputFile << c_proj.get_name() << "," << c_proj.get_death_line() << std::endl;
+                }
+                for(employee& c_emp :c_dep.employees){
+                    outputFile << c_emp.get_name() << "," << c_emp.get_egn() << "," << c_emp.get_work_experience() << "," << c_emp.get_hours_per_day() << "," << get_index(c_dep.projects, c_emp.get_project());
+                 }
+            }
+
+        }
+        outputFile.close();
+        std::cout << "Data saved to companies.txt" << std::endl;
+    }else{
+        std::cerr << "Error: Couldn't open file!" << std::endl;
+    }
+}
+
+void fill_companies(){
+    std::ifstream inputFile("../companies.txt"); // Replace "airplane_data.txt" with your file name
+
+    if (inputFile.is_open()) {
+        std::string line;
+        while (std::getline(inputFile, line)) {
+            std::istringstream ss(line);
+
+
+            std::string company_name, company_type;
+            int is_vat, c_departments;
+
+            std::string department_name, department_date;
+
+            std::string project_name, project_death_line;
+            int dep_projects;
+
+            std::string emp_name, emp_work_exp, emp_egn;
+            int dep_employees, emp_proj, emp_hours;
+
+            std::getline(ss, company_name, ',');
+            std::getline(ss, company_type, ',');
+            ss >> is_vat;
+            ss.ignore();
+            ss >> c_departments;
+            company c_comp(company_type, is_vat, company_name);
+                for (int departments = 0; departments < c_departments; departments++) {
+                    std::getline(inputFile, line);
+                    std::istringstream ss(line);
+                    std::getline(ss, department_name, ',');
+                    std::getline(ss, department_date, ',');
+                    ss >> dep_projects;
+                    ss.ignore();
+                    ss >> dep_employees;
+                    department c_dep(department_name, department_date);
+                    for(int projects = 0; projects < dep_projects; projects++){
+                        std::getline(inputFile, line);
+                        std::istringstream ss(line);
+                        std::getline(ss, project_name, ',');
+                        std::getline(ss, project_death_line, ',');
+                        project c_proj(project_name, project_death_line);
+                        c_dep.projects.push_back(c_proj);
+                    }
+                    for (int employees = 0; employees < dep_employees; ++employees) {
+                        std::getline(inputFile, line);
+                        std::istringstream ss(line);
+                        std::getline(ss, emp_name, ',');
+                        std::getline(ss, emp_egn, ',');
+                        std::getline(ss, emp_work_exp, ',');
+                        ss >> emp_hours;
+                        ss.ignore();
+                        ss >> emp_proj;
+                        employee c_emp(emp_name, emp_egn, emp_work_exp, emp_hours, c_dep.projects[emp_proj]);
+                        c_dep.employees.push_back(c_emp);
+                    }
+                    c_comp.departments.push_back(c_dep);
+                }
+            companies.push_back(c_comp);
+        }
+        std::cout << "\nSuccess reading data from file!\n";
+        inputFile.close();
+    } else {
+        std::cerr << "Error opening the file." << std::endl;
+    }
+}
 
 void add_company(){
     company c_comp = company();
@@ -18,7 +120,7 @@ void add_company(){
     std::cout << "Enter a type of company OOD - AD - EOOD: ";
     std::cin >> type;
     c_comp.set_type_of_company(type);
-    std::cout << "Enter if the comapny has VAT or not 0 - 1: ";
+    std::cout << "Enter if the company has VAT or not 0 - 1: ";
     std::cin >> is_vat;
     c_comp.set_vat(is_vat);
     std::cout << c_comp;
@@ -81,7 +183,7 @@ void edit_department(company* c_comp){
 
 }
 
-int get_department_number(int department_size){
+int get_department_number(unsigned long long department_size){
     int num;
     std::cout << "Enter the number of the department 0 - " << department_size - 1<< ": ";
     std::cin >> num;
@@ -95,7 +197,7 @@ int get_department_number(int department_size){
 
 void edit_project(department *dep){
     int num;
-    int projects_size = dep->projects.size();
+    unsigned long long projects_size = dep->projects.size();
     std::cout << "Enter the number of the department 0 - " << projects_size - 1<< ": ";
     std::cin >> num;
     while(num < 0 || num >= companies.size()){
@@ -117,7 +219,7 @@ void edit_project(department *dep){
 
 void edit_employee(department *dep){
     int num;
-    int projects_size = dep->employees.size();
+    unsigned long long projects_size = dep->employees.size();
     std::cout << "Enter the number of the department 0 - " << projects_size - 1<< ": ";
     std::cin >> num;
     while(num < 0 || num >= companies.size()){
@@ -136,7 +238,7 @@ void edit_employee(department *dep){
 }
 
 
-void project_menu(int department_size, company* c_comp){
+void project_menu(unsigned long long department_size, company* c_comp){
     int dep_num = get_department_number(department_size);
     department *c_dep = &c_comp->departments[dep_num];
     int action;
@@ -161,6 +263,8 @@ void project_menu(int department_size, company* c_comp){
             case 4:
                 break_flag = 1;
                 break;
+            default:
+                break;
         }
 
         if(break_flag){
@@ -171,7 +275,8 @@ void project_menu(int department_size, company* c_comp){
 
 }
 
-void employee_menu(int department_size, company* c_comp){
+
+void employee_menu(unsigned long long department_size, company* c_comp){
     int dep_num = get_department_number(department_size);
     department *c_dep = &c_comp->departments[dep_num];
     int action;
@@ -195,6 +300,8 @@ void employee_menu(int department_size, company* c_comp){
                 break;
             case 4:
                 break_flag = 1;
+                break;
+            default:
                 break;
         }
 
@@ -234,11 +341,12 @@ void department_menu(){
                 employee_menu(c_comp->departments.size(), c_comp);
                 break;
             case 5:
-
                 project_menu(c_comp->departments.size(), c_comp);
                 break;
             case 6:
                 exit_flag = 1;
+                break;
+            default:
                 break;
         }
         if(exit_flag){
@@ -252,6 +360,7 @@ void department_menu(){
 void start(){
     int action;
     int exit_flag = 0;
+    fill_companies();
 
     while(true){
         std::cout << "Enter a number, based on the action you want to take: " << std::endl;
@@ -276,9 +385,13 @@ void start(){
                 department_menu();
                 break;
             case 5:
+                write_to_file();
+                exit_flag = 1;
                 break;
             case 6:
                 exit_flag = 1;
+                break;
+            default:
                 break;
         }
         if(exit_flag){

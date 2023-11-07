@@ -1,5 +1,6 @@
 #include "department.h"
 #include <iostream>
+#include <utility>
 
 void department::set_name(std::string name) {
     while(name.length() <= 2){
@@ -24,17 +25,12 @@ department::department() {
 
 department::department(std::string name, std::string date) {
     set_name(std::move(name));
-    set_initial_date(date);
+    set_initial_date(std::move(date));
 }
 
 
 department::~department() {
-    for(employee empl: this->employees){
-        empl.~employee();
-    }
-    for(project proj: this->projects){
-        proj.~project();
-    }
+
 }
 
 std::string department::get_name() {
@@ -72,7 +68,7 @@ void department::add_project() {
     std::string c_name, c_date;
     std::cout << "Enter a name for the project: ";
     std::cin >> c_name;
-    std::cout << "Enter the death line for the prject: ";
+    std::cout << "Enter the death line for the project: ";
     std::cin >> c_date;
     project temp = project(c_name, c_date);
     projects.insert(projects.end(), temp);

@@ -29,11 +29,8 @@ project::project(std::string name, std::string death_line) {
     set_name(std::move(name));
 }
 
-project::~project() {
-//    std::cout << "This project is completed or just being removed";
-}
 
-std::string project::get_name() {
+std::string project::get_name() const {
     return this->name;
 }
 
@@ -51,4 +48,8 @@ std::ostream& operator<<(std::ostream& os, const project& obj){
     os << "The death line of the project is " << obj.death_line << std::endl;
 
     return os;
+}
+
+project::~project() {
+
 }

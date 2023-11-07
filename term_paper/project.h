@@ -10,7 +10,7 @@ class project{
         project();
         project(std::string name, std::string death_line);
         ~project();
-        std::string get_name();
+        std::string get_name() const;
         void set_name(std::string c_name);
         std::string get_death_line();
         void set_death_line(std::string date);

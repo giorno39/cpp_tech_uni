@@ -50,10 +50,6 @@ employee::employee(std::string name, std::string egn, std::string work_experienc
     this->current_project = proj;
 }
 
-employee::~employee() {
-//    std::cout << "This employee is being fired!";
-}
-
 std::string employee::get_name() {
     return this->name;
 }
@@ -83,6 +79,15 @@ std::ostream& operator<<(std::ostream& os, const employee& obj){
     os << "The ID of the employee is: " << obj.egn << std::endl;
     os << "The works " << obj.hours_per_day << " hours per day" << std::endl;
     os << "Experience: " << obj.work_experience << std::endl;
+    os << "Project: " << obj.current_project.get_name() << std::endl;
     return os;
+}
+
+employee::~employee() {
+
+}
+
+project employee::get_project() {
+    return this->current_project;
 }
 

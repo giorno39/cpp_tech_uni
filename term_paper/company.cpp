@@ -40,9 +40,7 @@ company::company(std::string type, bool vat, std::string new_name) {
 
 
 company::~company(){
-    for(department dep: this->departments){
-        dep.~department();
-    }
+
 }
 
 
