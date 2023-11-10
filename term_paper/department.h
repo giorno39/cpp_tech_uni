@@ -19,9 +19,7 @@ class department {
         std::string get_initial_date();
         void set_initial_date(std::string date);
         void add_worker();
-        // call the employee constructor and increment the workers value
         void add_project();
-        //call the project constructor and write it in a file
         void get_info();
         void get_worker_info();
         void get_projects_info();

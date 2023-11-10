@@ -43,25 +43,30 @@ std::string department::get_initial_date() {
 
 
 void department::add_worker() {
-    std::string egn, exp, name;
-    int h, proj;
-    std::cout << "Enter a name: ";
-    std::cin >> name;
-    std::cout << "Enter egn: ";
-    std::cin >> egn;
-    std::cout << "Enter experience Junior-Mid-Senior: ";
-    std::cin >> exp;
-    std::cout << "Enter hours per day 4-16";
-    std::cin >> h;
-    std::cout << "Enter a valid project 0 - " << this->projects.size() - 1;
-    std::cin >> proj;
-    while(proj < 0 || proj >= projects.size()){
-        std::cout << "Enter a valid project 0-" << this->projects.size() - 1;
+    if(this->projects.size() == 0){
+        std::cout << "There are no projects, so you can't add an emplyee" << std::endl;
+    }else{
+
+        std::string egn, exp, name;
+        int h, proj;
+        std::cout << "Enter a name: ";
+        std::cin >> name;
+        std::cout << "Enter egn: ";
+        std::cin >> egn;
+        std::cout << "Enter experience Junior-Mid-Senior: ";
+        std::cin >> exp;
+        std::cout << "Enter hours per day 4-16";
+        std::cin >> h;
+        std::cout << "Enter a valid project 0 - " << this->projects.size() - 1;
         std::cin >> proj;
+        while(proj < 0 || proj >= projects.size()){
+            std::cout << "Enter a valid project 0-" << this->projects.size() - 1;
+            std::cin >> proj;
+        }
+        project c_proj = projects[proj];
+        employee c_employee = employee(name, egn, exp, h, c_proj);
+        employees.insert(employees.end(), c_employee);
     }
-    project c_proj = projects[proj];
-    employee c_employee = employee(name, egn, exp, h, c_proj);
-    employees.insert(employees.end(), c_employee);
 }
 
 void department::add_project() {

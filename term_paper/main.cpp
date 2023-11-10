@@ -187,7 +187,7 @@ int get_department_number(unsigned long long department_size){
     int num;
     std::cout << "Enter the number of the department 0 - " << department_size - 1<< ": ";
     std::cin >> num;
-    while(num < 0 || num >= companies.size()){
+    while(num < 0 || num >= department_size){
         std::cout << "Enter the number of the department 0 - " << department_size - 1<< ": " ;
         std::cin >> num;
     }
@@ -198,10 +198,10 @@ int get_department_number(unsigned long long department_size){
 void edit_project(department *dep){
     int num;
     unsigned long long projects_size = dep->projects.size();
-    std::cout << "Enter the number of the department 0 - " << projects_size - 1<< ": ";
+    std::cout << "Enter the number of the project 0 - " << projects_size - 1<< ": ";
     std::cin >> num;
     while(num < 0 || num >= companies.size()){
-        std::cout << "Enter the number of the department 0 - " << projects_size - 1<< ": " ;
+        std::cout << "Enter the number of the project 0 - " << projects_size - 1<< ": " ;
         std::cin >> num;
     }
 
@@ -360,7 +360,7 @@ void department_menu(){
 void start(){
     int action;
     int exit_flag = 0;
-    fill_companies();
+
 
     while(true){
         std::cout << "Enter a number, based on the action you want to take: " << std::endl;
@@ -402,6 +402,7 @@ void start(){
 }
 
 int main() {
+    fill_companies();
     start();
     return 0;
 }
