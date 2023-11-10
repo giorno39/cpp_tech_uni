@@ -31,7 +31,7 @@ void write_to_file(){
                     outputFile << c_proj.get_name() << "," << c_proj.get_death_line() << std::endl;
                 }
                 for(employee& c_emp :c_dep.employees){
-                    outputFile << c_emp.get_name() << "," << c_emp.get_egn() << "," << c_emp.get_work_experience() << "," << c_emp.get_hours_per_day() << "," << get_index(c_dep.projects, c_emp.get_project());
+                    outputFile << c_emp.get_name() << "," << c_emp.get_egn() << "," << c_emp.get_work_experience() << "," << c_emp.get_hours_per_day() << "," << get_index(c_dep.projects, c_emp.get_project()) << std::endl;
                  }
             }
 
@@ -260,6 +260,7 @@ void project_menu(unsigned long long department_size, company* c_comp){
                 break;
             case 3:
                 edit_project(c_dep);
+                break;
             case 4:
                 break_flag = 1;
                 break;
